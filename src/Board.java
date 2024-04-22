@@ -9,8 +9,7 @@ public class Board extends JPanel {
     public Board() {
         // board settings
         setSize(getPreferredSize());
-        setBackground(Color.black);
-        setFocusable(true);
+        loadBackground();
     }
 
     private void loadBackground() {
@@ -18,6 +17,7 @@ public class Board extends JPanel {
         try {
             ImageIO.read(Board.class.getResource("background.png"));
         } catch (IOException e) {
+            System.exit(1);
             e.printStackTrace();
         }
     }
