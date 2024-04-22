@@ -3,17 +3,21 @@ package base;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
+import sprites.Player;
+
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 public class Board extends JPanel {
     BufferedImage background;
+    Player player;
 
     public Board() {
         // board settings
         setSize(1200, 600);
         loadBackground();
+        player = new Player();
     }
 
     private void loadBackground() {
@@ -30,6 +34,6 @@ public class Board extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         g.drawImage(background, 0, 0, 1200, 600, null);
-        // drawBoard(g);
+        player.draw(g);
     }
 }

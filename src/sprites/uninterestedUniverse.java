@@ -1,5 +1,5 @@
 package sprites;
 
-public class uninterestedUniverse {
+public class UninterestedUniverse {
 
 }
