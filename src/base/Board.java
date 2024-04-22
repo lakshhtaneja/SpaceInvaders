@@ -1,3 +1,5 @@
+package base;
+
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
