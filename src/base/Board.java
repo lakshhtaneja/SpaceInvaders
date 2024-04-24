@@ -5,6 +5,7 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 import sprites.Player;
+import sprites.UninterestedUniverse;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
@@ -13,6 +14,7 @@ import java.io.IOException;
 public class Board extends JPanel {
     BufferedImage background;
     Player player;
+    UninterestedUniverse enemy;
     Timer timer;
 
     public Board() {
@@ -20,6 +22,7 @@ public class Board extends JPanel {
         setSize(1200, 600);
         loadBackground();
         player = new Player();
+        enemy = new UninterestedUniverse();
         gameLoop();
     }
 
@@ -46,5 +49,7 @@ public class Board extends JPanel {
         super.paintComponent(g);
         g.drawImage(background, 0, 0, 1200, 600, null);
         player.draw(g);
+        enemy.draw(g);
+
     }
 }
