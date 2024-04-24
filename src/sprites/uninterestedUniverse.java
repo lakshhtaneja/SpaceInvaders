@@ -18,8 +18,14 @@ public class UninterestedUniverse extends Sprite {
         x += speed * directionX;
         y += speed * directionY;
 
+        if (x > 1200) {
+            x = 0;
+        }
         if (x < 0) {
             x = 1200;
+        }
+        if (y > 600) {
+            y = 0;
         }
         if (y < 0) {
             y = 600;

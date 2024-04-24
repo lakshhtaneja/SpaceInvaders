@@ -7,11 +7,11 @@ import javax.swing.ImageIcon;
 public abstract class Sprite {
     int x;
     int y;
-    int speed;
+    public int speed;
     int width;
     int height;
-    int directionX;
-    int directionY;
+    public int directionX;
+    public int directionY;
     ImageIcon image;
 
     public void draw(Graphics g) {

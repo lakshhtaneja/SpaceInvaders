@@ -8,6 +8,8 @@ import sprites.Player;
 import sprites.UninterestedUniverse;
 
 import java.awt.Graphics;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Random;
@@ -25,6 +27,44 @@ public class Board extends JPanel {
         player = new Player();
         createEnemies();
         gameLoop();
+        setFocusable(true);
+        bindEvents();
+    }
+
+    private void bindEvents() {
+        addKeyListener(new KeyListener() {
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_UP) {
+                    player.directionY = -1;
+                    player.directionX = 0;
+                }
+                if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+                    player.directionY = 1;
+                    player.directionX = 0;
+                }
+                if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+                    player.directionX = -1;
+                    player.directionY = 0;
+                }
+                if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+                    player.directionX = 1;
+                    player.directionY = 0;
+                }
+                player.speed = 5;
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                player.speed = 0;
+            }
+
+            @Override
+            public void keyTyped(KeyEvent e) {
+            }
+
+        });
     }
 
     private void createEnemies() {
@@ -74,6 +114,7 @@ public class Board extends JPanel {
         super.paintComponent(g);
         g.drawImage(background, 0, 0, 1200, 600, null);
         player.draw(g);
+        player.update();
         printEnemies(g);
 
     }
