@@ -49,24 +49,17 @@ public class Board extends JPanel {
     }
 
     private void gameOver(Graphics g) {
-        for (UninterestedUniverse enemy : enemies) {
-            if (isCollide(enemy)) {
-                g.setColor(Color.RED);
-                g.setFont(g.getFont().deriveFont(50.0f));
-                g.drawString("Game Over", 450, 300);
-                timer.stop();
-            }
+        if (!player.isAlive()) {
+            g.setColor(Color.RED);
+            g.setFont(g.getFont().deriveFont(50.0f));
+            g.drawString("Game Over", 450, 250);
+            g.setColor(Color.WHITE);
+            g.drawString("Your Score was " + player.points, 380, 350);
+            timer.stop();
         }
     }
 
     // collision physics
-    private boolean isCollide(UninterestedUniverse enemy) {
-        int xDist = Math.abs(player.x - enemy.x);
-        int yDist = Math.abs(player.y - enemy.y);
-        int maxHeight = Math.max(player.height / 3, enemy.height / 3);
-        int maxWidth = Math.max(player.width / 4, enemy.width / 4);
-        return xDist < maxWidth && yDist < maxHeight;
-    }
 
     private boolean isCollide(Bullet bullet, UninterestedUniverse enemy) {
         int xDist = Math.abs(bullet.x - enemy.x);
@@ -82,7 +75,8 @@ public class Board extends JPanel {
             for (UninterestedUniverse enemy : enemies) {
                 if (isCollide(bullet, enemy)) {
                     bulletIterator.remove(); // safely remove the bullet
-                    enemies.remove(enemy); // remove the enemy
+                    enemies.remove(enemy);
+                    player.addPoints();
                     break;
                 }
             }
@@ -131,10 +125,16 @@ public class Board extends JPanel {
 
     private void gameLoop() {
         timer = new Timer(1000 / 60, e -> {
-            // player.update();
             repaint();
-            for (UninterestedUniverse enemy : enemies) {
+            for (Iterator<UninterestedUniverse> iterator = enemies.iterator(); iterator.hasNext();) {
+                UninterestedUniverse enemy = iterator.next();
                 enemy.update();
+
+                // check if enemy has hit the bottom
+                if (enemy.y + enemy.height >= getHeight()) {
+                    iterator.remove();
+                    player.loseLife();
+                }
             }
         });
         timer.start();
@@ -168,6 +168,11 @@ public class Board extends JPanel {
             bullet.update();
         }
         printEnemies(g);
+        g.setColor(Color.WHITE);
+        g.setFont(g.getFont().deriveFont(20.0f));
+        g.drawString("Points: " + player.points, 10, 40);
+        g.setColor(Color.RED);
+        g.drawString("Lives: " + player.lives, 1100, 40);
         gameOver(g);
     }
 }

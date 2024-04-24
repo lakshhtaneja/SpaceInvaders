@@ -5,8 +5,11 @@ import javax.swing.ImageIcon;
 public class Player extends Sprite {
 
     int velocity;
+    public int lives;
+    public int points;
 
     public Player() {
+        lives = 1;
         velocity = 0;
         x = 550;
         y = 450;
@@ -26,5 +29,17 @@ public class Player extends Sprite {
         if (x > 1200) {
             x = 1200;
         }
+    }
+
+    public void addPoints() {
+        points++;
+    }
+
+    public void loseLife() {
+        lives--;
+    }
+
+    public boolean isAlive() {
+        return lives > 0;
     }
 }
