@@ -9,7 +9,7 @@ public class Player extends Sprite {
     public int points;
 
     public Player() {
-        lives = 1;
+        lives = 5;
         velocity = 0;
         x = 550;
         y = 450;

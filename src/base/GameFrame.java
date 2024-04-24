@@ -15,13 +15,10 @@ public class GameFrame extends JFrame {
         setResizable(false);
         setLocationRelativeTo(null);
 
-        setTitle("Tea Time");
+        setTitle("Space Invaders");
         add(board);
         setVisible(true);
 
     }
 
-    public static void main(String[] args) {
-        new GameFrame();
-    }
 }
