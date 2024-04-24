@@ -3,12 +3,12 @@ package sprites;
 import javax.swing.ImageIcon;
 
 public class UninterestedUniverse extends Sprite {
-    public UninterestedUniverse(int x, int y, int size, int speed, int directionX, int directionY) {
+    public UninterestedUniverse(int x, int y, int size, int speed, int directionX) {
         this.x = x;
         this.y = y;
         this.speed = speed;
         this.directionX = directionX;
-        this.directionY = directionY;
+        directionY = 1;
         width = size;
         height = size;
         image = new ImageIcon("src/sprites/asteroid.png");
