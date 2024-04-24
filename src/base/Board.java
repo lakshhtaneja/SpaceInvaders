@@ -10,11 +10,12 @@ import sprites.UninterestedUniverse;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Random;
 
 public class Board extends JPanel {
     BufferedImage background;
     Player player;
-    UninterestedUniverse enemy;
+    UninterestedUniverse enemies[] = new UninterestedUniverse[10];
     Timer timer;
 
     public Board() {
@@ -22,8 +23,15 @@ public class Board extends JPanel {
         setSize(1200, 600);
         loadBackground();
         player = new Player();
-        enemy = new UninterestedUniverse();
+        createEnemies();
         gameLoop();
+    }
+
+    private void createEnemies() {
+        Random rand = new Random();
+        for (int i = 0; i < enemies.length; i++) {
+            enemies[i] = new UninterestedUniverse(rand.nextInt(1200), rand.nextInt(600), 50);
+        }
     }
 
     private void gameLoop() {
@@ -44,12 +52,18 @@ public class Board extends JPanel {
         }
     }
 
+    private void printEnemies(Graphics g) {
+        for (UninterestedUniverse enemy : enemies) {
+            enemy.draw(g);
+        }
+    }
+
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         g.drawImage(background, 0, 0, 1200, 600, null);
         player.draw(g);
-        enemy.draw(g);
+        printEnemies(g);
 
     }
 }
