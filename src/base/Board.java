@@ -15,7 +15,7 @@ import java.util.Random;
 public class Board extends JPanel {
     BufferedImage background;
     Player player;
-    UninterestedUniverse enemies[] = new UninterestedUniverse[10];
+    UninterestedUniverse enemies[] = new UninterestedUniverse[9];
     Timer timer;
 
     public Board() {
@@ -29,8 +29,16 @@ public class Board extends JPanel {
 
     private void createEnemies() {
         Random rand = new Random();
+        int directionX;
+        int directionY;
+        int size = 100;
         for (int i = 0; i < enemies.length; i++) {
-            enemies[i] = new UninterestedUniverse(rand.nextInt(1200), rand.nextInt(600), 50);
+            directionX = rand.nextInt(3) - 1;
+            directionY = rand.nextInt(3) - 1;
+            enemies[i] = new UninterestedUniverse(
+                    rand.nextInt(1100), rand.nextInt(500), size, 5, directionX,
+                    directionY);
+            size -= 10;
         }
     }
 
@@ -38,6 +46,9 @@ public class Board extends JPanel {
         timer = new Timer(1000 / 60, e -> {
             // player.update();
             repaint();
+            for (UninterestedUniverse enemy : enemies) {
+                enemy.update();
+            }
         });
         timer.start();
     }
