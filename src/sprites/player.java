@@ -4,7 +4,10 @@ import javax.swing.ImageIcon;
 
 public class Player extends Sprite {
 
+    int velocity;
+
     public Player() {
+        velocity = 0;
         x = 550;
         y = 250;
         width = 100;
@@ -15,9 +18,10 @@ public class Player extends Sprite {
     }
 
     public void update() {
-        x += speed * directionX;
-        y += speed * directionY;
-
+        velocity += speed;
+        x += velocity * directionX;
+        y += velocity * directionY;
+        velocity *= 0.9;
         if (x < 0) {
             x = 0;
         }
