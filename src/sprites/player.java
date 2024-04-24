@@ -9,7 +9,7 @@ public class Player extends Sprite {
     public Player() {
         velocity = 0;
         x = 550;
-        y = 250;
+        y = 450;
         width = 100;
         height = 100;
         directionX = 1;

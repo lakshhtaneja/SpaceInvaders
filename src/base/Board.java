@@ -10,19 +10,24 @@ import sprites.UninterestedUniverse;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Random;
 
 public class Board extends JPanel {
+    int lives = 5;
     BufferedImage background;
     Player player;
     ArrayList<UninterestedUniverse> enemies = new ArrayList<>();
     ArrayList<Bullet> bullets = new ArrayList<>();
     Timer timer;
+    Timer enemySpawnTimer;
 
     public Board() {
         // board settings
@@ -30,8 +35,14 @@ public class Board extends JPanel {
 
         loadBackground();
         player = new Player();
-
-        createEnemies();
+        enemySpawnTimer = new Timer(1000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // add a new enemy
+                enemies.add(createEnemy());
+            }
+        });
+        enemySpawnTimer.start();
         gameLoop();
         setFocusable(true);
         bindEvents();
@@ -48,6 +59,7 @@ public class Board extends JPanel {
         }
     }
 
+    // collision physics
     private boolean isCollide(UninterestedUniverse enemy) {
         int xDist = Math.abs(player.x - enemy.x);
         int yDist = Math.abs(player.y - enemy.y);
@@ -59,23 +71,25 @@ public class Board extends JPanel {
     private boolean isCollide(Bullet bullet, UninterestedUniverse enemy) {
         int xDist = Math.abs(bullet.x - enemy.x);
         int yDist = Math.abs(bullet.y - enemy.y);
-        int maxHeight = Math.max(bullet.height / 3, enemy.height / 3);
-        int maxWidth = Math.max(bullet.width / 4, enemy.width / 4);
+        int maxHeight = Math.max(bullet.height, enemy.height);
+        int maxWidth = Math.max(bullet.width, enemy.width);
         return xDist < maxWidth && yDist < maxHeight;
     }
 
     private void checkCollisions() {
-        for (Bullet bullet : bullets) {
+        for (Iterator<Bullet> bulletIterator = bullets.iterator(); bulletIterator.hasNext();) {
+            Bullet bullet = bulletIterator.next();
             for (UninterestedUniverse enemy : enemies) {
                 if (isCollide(bullet, enemy)) {
-                    bullets.remove(bullet);
-                    enemies.remove(enemy);
+                    bulletIterator.remove(); // safely remove the bullet
+                    enemies.remove(enemy); // remove the enemy
                     break;
                 }
             }
         }
     }
 
+    // bind events
     private void bindEvents() {
         addKeyListener(new KeyListener() {
 
@@ -109,16 +123,10 @@ public class Board extends JPanel {
         });
     }
 
-    private void createEnemies() {
+    private UninterestedUniverse createEnemy() {
         Random rand = new Random();
-        int directionX;
-        int size = 100;
-        for (int i = 0; i < 10; i++) {
-            directionX = rand.nextInt(3) - 1;
-            enemies.add(new UninterestedUniverse(
-                    rand.nextInt(1100), rand.nextInt(100), size, 5, directionX));
-            size -= 10;
-        }
+        int directionX = rand.nextInt(3) - 1;
+        return new UninterestedUniverse(rand.nextInt(1100), rand.nextInt(100), 100, 5, directionX);
     }
 
     private void gameLoop() {

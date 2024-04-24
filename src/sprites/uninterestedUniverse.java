@@ -3,6 +3,7 @@ package sprites;
 import javax.swing.ImageIcon;
 
 public class UninterestedUniverse extends Sprite {
+
     public UninterestedUniverse(int x, int y, int size, int speed, int directionX) {
         this.x = x;
         this.y = y;
@@ -25,10 +26,7 @@ public class UninterestedUniverse extends Sprite {
             x = 1200;
         }
         if (y > 600) {
-            y = 0;
-        }
-        if (y < 0) {
-            y = 600;
+
         }
     }
 
