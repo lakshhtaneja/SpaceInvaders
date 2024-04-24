@@ -2,6 +2,7 @@ package base;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
+import javax.swing.Timer;
 
 import sprites.Player;
 
@@ -12,12 +13,22 @@ import java.io.IOException;
 public class Board extends JPanel {
     BufferedImage background;
     Player player;
+    Timer timer;
 
     public Board() {
         // board settings
         setSize(1200, 600);
         loadBackground();
         player = new Player();
+        gameLoop();
+    }
+
+    private void gameLoop() {
+        timer = new Timer(1000 / 60, e -> {
+            // player.update();
+            repaint();
+        });
+        timer.start();
     }
 
     private void loadBackground() {
