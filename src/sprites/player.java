@@ -2,8 +2,6 @@ package sprites;
 
 import javax.swing.ImageIcon;
 
-import base.Board;
-
 public class Player extends Sprite {
 
     int velocity;
