@@ -77,31 +77,6 @@ public class Board extends JPanel {
         }
     }
 
-    // collision physics
-
-    private boolean isCollide(Bullet bullet, UninterestedUniverse enemy) {
-        int xDist = Math.abs(bullet.x - enemy.x);
-        int yDist = Math.abs(bullet.y - enemy.y);
-        int maxHeight = Math.max(bullet.height, enemy.height);
-        int maxWidth = Math.max(bullet.width, enemy.width);
-        return xDist < maxWidth && yDist < maxHeight;
-    }
-
-    private void checkCollisions() {
-        for (Iterator<Bullet> bulletIterator = bullets.iterator(); bulletIterator.hasNext();) {
-            Bullet bullet = bulletIterator.next();
-            for (UninterestedUniverse enemy : enemies) {
-                if (isCollide(bullet, enemy)) {
-                    bulletIterator.remove(); // safely remove the bullet
-                    enemy.exploding = true;
-                    player.addPoints();
-                    break;
-                }
-            }
-        }
-    }
-
-    // bind events
     private void bindEvents() {
         addKeyListener(new KeyListener() {
 
@@ -136,12 +111,6 @@ public class Board extends JPanel {
         });
     }
 
-    private UninterestedUniverse createEnemy() {
-        Random rand = new Random();
-        int directionX = rand.nextInt(3) - 1;
-        return new UninterestedUniverse(rand.nextInt(1100), rand.nextInt(100), 100, 5, directionX);
-    }
-
     private void gameLoop() {
         timer = new Timer(1000 / 60, e -> {
             repaint();
@@ -169,6 +138,13 @@ public class Board extends JPanel {
         }
     }
 
+    // Enemy Creation
+    private UninterestedUniverse createEnemy() {
+        Random rand = new Random();
+        int directionX = rand.nextInt(3) - 1;
+        return new UninterestedUniverse(rand.nextInt(1100), rand.nextInt(100), 100, 5, directionX);
+    }
+
     private void printEnemies(Graphics g) {
         for (UninterestedUniverse enemy : enemies) {
             if (enemy.exploding) {
@@ -180,6 +156,29 @@ public class Board extends JPanel {
                 timer.start();
             } else {
                 enemy.draw(g);
+            }
+        }
+    }
+
+    // collision physics
+    private boolean isCollide(Bullet bullet, UninterestedUniverse enemy) {
+        int xDist = Math.abs(bullet.x - enemy.x);
+        int yDist = Math.abs(bullet.y - enemy.y);
+        int maxHeight = Math.max(bullet.height, enemy.height);
+        int maxWidth = Math.max(bullet.width, enemy.width);
+        return xDist < maxWidth && yDist < maxHeight;
+    }
+
+    private void checkCollisions() {
+        for (Iterator<Bullet> bulletIterator = bullets.iterator(); bulletIterator.hasNext();) {
+            Bullet bullet = bulletIterator.next();
+            for (UninterestedUniverse enemy : enemies) {
+                if (isCollide(bullet, enemy)) {
+                    bulletIterator.remove(); // safely remove the bullet
+                    enemy.exploding = true;
+                    player.addPoints();
+                    break;
+                }
             }
         }
     }
