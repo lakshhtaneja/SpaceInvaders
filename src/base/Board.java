@@ -172,9 +172,13 @@ public class Board extends JPanel {
         player.draw(g);
         player.update();
         checkCollisions();
-        for (Bullet bullet : bullets) {
+        for (Iterator<Bullet> bulletIterator = bullets.iterator(); bulletIterator.hasNext();) {
+            Bullet bullet = bulletIterator.next();
             bullet.draw(g);
             bullet.update();
+            if (bullet.y + bullet.height < 0) {
+                bulletIterator.remove(); // remove the bullet
+            }
         }
         printEnemies(g);
         g.setColor(Color.WHITE);
