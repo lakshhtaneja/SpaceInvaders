@@ -75,7 +75,7 @@ public class Board extends JPanel {
             for (UninterestedUniverse enemy : enemies) {
                 if (isCollide(bullet, enemy)) {
                     bulletIterator.remove(); // safely remove the bullet
-                    enemies.remove(enemy);
+                    enemy.exploding = true;
                     player.addPoints();
                     break;
                 }
@@ -152,7 +152,16 @@ public class Board extends JPanel {
 
     private void printEnemies(Graphics g) {
         for (UninterestedUniverse enemy : enemies) {
-            enemy.draw(g);
+            if (enemy.exploding) {
+                enemy.explode(g, enemy);
+                javax.swing.Timer timer = new javax.swing.Timer(500, e -> {
+                    enemies.remove(enemy);
+                    ((javax.swing.Timer) e.getSource()).stop(); // stop the timer
+                });
+                timer.start();
+            } else {
+                enemy.draw(g);
+            }
         }
     }
 
