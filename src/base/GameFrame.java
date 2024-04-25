@@ -1,6 +1,5 @@
 package base;
 
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
 public class GameFrame extends JFrame {
