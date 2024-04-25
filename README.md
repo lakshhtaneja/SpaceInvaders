@@ -4,7 +4,7 @@
 
 
 - `src`: the folder to maintain sources and assets
-- `lib`: the folder to maintain dependencies
+- `bin`: the folder to store compiled binary files or executables
 
 
 Attribution for the assets used
