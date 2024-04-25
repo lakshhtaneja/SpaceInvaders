@@ -9,7 +9,7 @@ public class Player extends Sprite {
     public int points;
 
     public Player() {
-        lives = 5;
+        lives = 1;
         velocity = 0;
         x = 550;
         y = 450;
@@ -20,6 +20,9 @@ public class Player extends Sprite {
     }
 
     public void update() {
+        if (!isAlive()) {
+            return;
+        }
         velocity += speed;
         x += velocity * directionX;
         velocity *= 0.9;

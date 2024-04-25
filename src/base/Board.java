@@ -1,7 +1,10 @@
 package base;
 
 import javax.imageio.ImageIO;
+import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
 import sprites.Bullet;
@@ -21,7 +24,6 @@ import java.util.Iterator;
 import java.util.Random;
 
 public class Board extends JPanel {
-    int lives = 5;
     BufferedImage background;
     Player player;
     ArrayList<UninterestedUniverse> enemies = new ArrayList<>();
@@ -55,7 +57,23 @@ public class Board extends JPanel {
             g.drawString("Game Over", 450, 250);
             g.setColor(Color.WHITE);
             g.drawString("Your Score was " + player.points, 380, 350);
+
             timer.stop();
+            JButton retryButton = new JButton("Return to Main Menu");
+            retryButton.setBounds(500, 400, 200, 50); // set button position and size
+            retryButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    new MainMenu();
+                    JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(Board.this);
+                    if (frame != null) {
+                        frame.dispose();
+                    }
+                }
+            });
+            this.add(retryButton);
+            this.repaint();
+            enemySpawnTimer.stop();
         }
     }
 
@@ -90,7 +108,8 @@ public class Board extends JPanel {
             @Override
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-                    bullets.add(new Bullet(player.x + player.width / 2, player.y, 10, 10));
+                    if (player.isAlive())
+                        bullets.add(new Bullet(player.x + player.width / 2, player.y, 10, 10));
 
                 }
                 if (e.getKeyCode() == KeyEvent.VK_LEFT) {
