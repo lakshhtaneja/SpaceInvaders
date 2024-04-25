@@ -1,5 +1,6 @@
 package base;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
 public class GameFrame extends JFrame {
@@ -16,6 +17,8 @@ public class GameFrame extends JFrame {
         setLocationRelativeTo(null);
 
         setTitle("Space Invaders");
+        // set the frame icon
+        setIconImage(MainMenu.icon.getImage());
         add(board);
         setVisible(true);
 

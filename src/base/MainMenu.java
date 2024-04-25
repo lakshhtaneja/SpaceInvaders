@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class MainMenu extends JFrame {
+    public static ImageIcon icon = new ImageIcon("src/Sprites/asteroid.png");
 
     public MainMenu() {
         // Set the frame layout
@@ -55,6 +56,7 @@ public class MainMenu extends JFrame {
         this.setSize(800, 600);
         this.setLocationRelativeTo(null); // Center the frame
         this.setVisible(true);
+        this.setIconImage(icon.getImage());
     }
 
     public static void main(String[] args) {
